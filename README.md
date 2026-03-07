@@ -61,23 +61,56 @@ uvicorn src.api.main:app --host 0.0.0.0 --port 8000
 
 > **Windows CMD** users: replace step 1 activation with `.venv\Scripts\activate.bat`
 
-### Query Examples
+### Usage Guide
+
+The system is a REST API — send natural-language questions and get back the most relevant newsgroup posts. Paraphrased queries are automatically cached.
+
+> **No terminal needed for queries!** Once the server is running, open **http://localhost:8000/docs** in your browser for an interactive Swagger UI where you can test all endpoints visually.
+
+**Search for documents:**
 ```bash
-# First query (cache miss)
 curl -X POST http://localhost:8000/query \
   -H 'Content-Type: application/json' \
-  -d '{"query": "Are there any good telescope recommendations for beginners?"}'
+  -d '{"query": "How do encryption algorithms work?"}'
+```
+```json
+{
+  "query": "How do encryption algorithms work?",
+  "cache_hit": false,
+  "results": [
+    {"doc_id": "doc_...", "document": "Subject: DES encryption ...", "score": 0.78,
+     "metadata": {"original_label": "sci.crypt"}}
+  ]
+}
+```
 
-# Paraphrase (cache hit)
+**Paraphrase detection (automatic cache hit):**
+```bash
 curl -X POST http://localhost:8000/query \
   -H 'Content-Type: application/json' \
-  -d '{"query": "What telescope should a beginner astronomer buy?"}'
+  -d '{"query": "Explain how ciphers and encryption work"}'
+```
+```json
+{
+  "cache_hit": true,
+  "similarity_score": 0.87,
+  "matched_query": "How do encryption algorithms work?",
+  "results": [...]
+}
+```
 
-# Stats
+**Monitor cache performance:**
+```bash
 curl http://localhost:8000/cache/stats
+```
+```json
+{"total_entries": 5, "hit_count": 3, "miss_count": 5, "hit_rate": 0.375}
+```
 
-# Clear cache
+**Clear cache / Health check:**
+```bash
 curl -X DELETE http://localhost:8000/cache
+curl http://localhost:8000/health
 ```
 
 ## Docker
