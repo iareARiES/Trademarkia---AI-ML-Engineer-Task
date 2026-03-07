@@ -19,6 +19,8 @@ POST /query → Embed → FCM Memberships → Cache Lookup → ChromaDB Retrieve
 
 ## Quick Start
 
+### Linux / macOS
+
 ```bash
 # 1. Create and activate venv
 python3.11 -m venv .venv
@@ -36,6 +38,28 @@ python -m src.clustering.fuzzy_cluster
 # 5. Start API
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000
 ```
+
+### Windows (PowerShell)
+
+```powershell
+# 1. Create and activate venv
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Ingest & embed corpus (~10 min, one-time)
+python -m src.ingestion.ingest
+
+# 4. Run FCM clustering (~5 min, one-time)
+python -m src.clustering.fuzzy_cluster
+
+# 5. Start API
+uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+```
+
+> **Windows CMD** users: replace step 1 activation with `.venv\Scripts\activate.bat`
 
 ### Query Examples
 ```bash
