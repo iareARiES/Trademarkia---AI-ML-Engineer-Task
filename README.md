@@ -37,7 +37,7 @@ python -m src.clustering.fuzzy_cluster
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000
 ```
 
-### 4. Query
+### Query Examples
 ```bash
 # First query (cache miss)
 curl -X POST http://localhost:8000/query \
