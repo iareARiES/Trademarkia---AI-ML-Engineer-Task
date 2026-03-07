@@ -1,0 +1,15 @@
+{
+  "total_raw_documents": 18846,
+  "documents_kept": 17151,
+  "documents_filtered_short": 1695,
+  "documents_filtered_empty": 0,
+  "embedding_dim": 384,
+  "collection_name": "newsgroups_v1",
+  "final_collection_count": 17151,
+  "timing": {
+    "preprocessing_seconds": 26.12,
+    "embedding_seconds": 573.3,
+    "upsert_seconds": 24.76,
+    "total_seconds": 624.18
+  }
+}

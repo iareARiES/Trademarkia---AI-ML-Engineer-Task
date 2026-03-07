@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  semantic-search:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./artefacts:/app/artefacts   # persist ChromaDB + clustering artefacts
+      - ./data:/app/data
+    environment:
+      - LOG_LEVEL=info
+    restart: unless-stopped

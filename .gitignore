@@ -1,0 +1,52 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Large binary artefacts — regenerate via pipelines
+artefacts/chroma_db/
+artefacts/clustering/embeddings.npy
+artefacts/clustering/membership_matrix.npy
+artefacts/clustering/cluster_centers.npy
+artefacts/clustering/pca_model.pkl
+
+# PNGs are embedded in the notebook — no need to track separately
+artefacts/clustering/*.png
+
+# Keep these — they are small, human-readable, and prove your work
+!artefacts/clustering/fcm_meta.json
+!artefacts/clustering/threshold_analysis.json
+!artefacts/ingestion_report.json
+
+# Data — auto-downloaded by sklearn on first run
+data/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Pytest cache
+.pytest_cache/
+
+# HuggingFace model cache — downloaded at runtime
+.cache/

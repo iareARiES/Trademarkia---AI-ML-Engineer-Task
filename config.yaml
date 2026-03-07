@@ -1,0 +1,27 @@
+chroma:
+  persist_directory: ./artefacts/chroma_db
+  collection_name: newsgroups_v1
+
+model:
+  name: sentence-transformers/all-MiniLM-L6-v2
+  batch_size: 64
+
+clustering:
+  artefacts_dir: ./artefacts/clustering
+  membership_threshold: 0.15   # min membership to include bucket in lookup
+  n_clusters_sweep: [8, 10, 12, 15, 18, 20, 25]
+  fuzzifier: 1.2
+  error: 0.005
+  maxiter: 300
+  n_restarts: 5
+  pca_dims: 50
+
+cache:
+  similarity_threshold: 0.82   # τ — the key tunable
+  bucket_cap: 200
+  eviction_policy: fifo        # fifo | lru
+
+api:
+  host: 0.0.0.0
+  port: 8000
+  log_level: info
