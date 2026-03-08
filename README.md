@@ -17,6 +17,8 @@ POST /query → Embed → FCM Memberships → Cache Lookup → ChromaDB Retrieve
 
 > **Note on membership entropy:** Most documents show high membership entropy (mean=1.724, max possible=2.079), meaning the corpus is genuinely ambiguous — posts span multiple topics rather than belonging cleanly to one. This is a property of the data, not a model failure. The fuzzy clustering correctly reflects this uncertainty rather than forcing false precision.
 
+> **Note on hybrid search:** Hybrid search (BM25 + semantic) was considered but excluded — the 20 Newsgroups corpus is better served by pure semantic search since posts use inconsistent vocabulary across the same topic. Keyword matching would hurt precision on this dataset.
+
 ## Quick Start
 
 ### Linux / macOS
@@ -32,8 +34,12 @@ pip install -r requirements.txt
 # 3. Ingest & embed corpus (~10 min, one-time)
 python -m src.ingestion.ingest
 
-# 4. Run FCM clustering (~5 min, one-time)
+# 4. Run FCM clustering
+# First time — full parameter sweep (~5 min, generates evidence for c=8 selection)
 python -m src.clustering.fuzzy_cluster
+
+# Subsequent runs — skip sweep, use known optimal parameters (~30 seconds)
+python -m src.clustering.fuzzy_cluster --skip-sweep
 
 # 5. Start API
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000
@@ -52,8 +58,12 @@ pip install -r requirements.txt
 # 3. Ingest & embed corpus (~10 min, one-time)
 python -m src.ingestion.ingest
 
-# 4. Run FCM clustering (~5 min, one-time)
+# 4. Run FCM clustering
+# First time — full parameter sweep (~5 min, generates evidence for c=8 selection)
 python -m src.clustering.fuzzy_cluster
+
+# Subsequent runs — skip sweep, use known optimal parameters (~30 seconds)
+python -m src.clustering.fuzzy_cluster --skip-sweep
 
 # 5. Start API
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000
