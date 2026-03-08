@@ -126,8 +126,15 @@ curl http://localhost:8000/health
 ## Docker
 
 ```bash
+# Build and start the API server
 docker compose up --build
+
+# In a separate terminal, run ingestion + clustering inside the container (one-time)
+docker compose exec semantic-search python -m src.ingestion.ingest
+docker compose exec semantic-search python -m src.clustering.fuzzy_cluster
 ```
+
+> The compose file mounts `./artefacts` and `./data` as volumes, so ChromaDB and clustering artefacts persist across container restarts. `LOG_LEVEL` can be adjusted in `docker-compose.yml` under the `environment` section.
 
 ## API Endpoints
 
